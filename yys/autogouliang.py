@@ -11,6 +11,7 @@ import random
 
 def clickButton(fileName):
   leftUpPos = pyautogui.locateOnScreen(fileName)
+  randomPos = leftUpPos
   if leftUpPos:
     randomPos = [random.randrange(leftUpPos[0], leftUpPos[0]+leftUpPos[2]),random.randrange(leftUpPos[1],leftUpPos[1]+leftUpPos[3])]
     pyautogui.moveTo(randomPos[0],randomPos[1],duration=3)
