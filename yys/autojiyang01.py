@@ -36,7 +36,7 @@ def DragButton(fileName,offset):
   return position
   
 
-def HasImage(fileName)
+def HasImage(fileName):
   leftUpPos = pyautogui.locateOnScreen(fileName)  
   if leftUpPos:
     return True
@@ -68,7 +68,7 @@ while True:
               if position:
                 #寄养完毕,sleep 6小时
                 time.sleep(6*60);
-    else if(HasImage('jiyangjiemian.png')): #No quanbu button
+    elif(HasImage('jiyangjiemian.png')): #No quanbu button
       clickButton('tuichujiyang.png')
       time.sleep(10) # try clickRange again after 10 sec      
   else:#error, failed to click jiyang flag
