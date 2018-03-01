@@ -68,8 +68,7 @@ while True:
               if position:
                 #寄养完毕,sleep 6小时
                 time.sleep(6*60);
-    elif(HasImage('jiyangjiemian.png')): #No quanbu button
-      clickButton('tuichujiyang.png')
+    else
       time.sleep(10) # try clickRange again after 10 sec      
   else:#error, failed to click jiyang flag
     Capture('JiyangBtnfailure') 
