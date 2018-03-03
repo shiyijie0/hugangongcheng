@@ -1,3 +1,4 @@
+# -*- coding: cp936 -*-
 import pyautogui
 import time
 import random
@@ -9,16 +10,24 @@ import random
 #if position:
 #  pyautogui.moveTo(position[0],position[1],duration=10)
 
+def Capture(fileName):
+  t = time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime())
+  tstr = 'Captures/' + t + fileName + '.png'
+  pyautogui.screenshot(tstr)
+
 def clickButton(fileName):
   leftUpPos = pyautogui.locateOnScreen(fileName)
   randomPos = leftUpPos
   if leftUpPos:
     randomPos = [random.randrange(leftUpPos[0], leftUpPos[0]+leftUpPos[2]),random.randrange(leftUpPos[1],leftUpPos[1]+leftUpPos[3])]
-    pyautogui.moveTo(randomPos[0],randomPos[1],duration=3)
+    pyautogui.moveTo(randomPos[0],randomPos[1], 2, pyautogui.easeInQuad)
     pyautogui.click()
     randomTime = random.randrange(3,7)
     time.sleep(randomTime)
-    print('æŒ‰é’®ï¼š', fileName, '[', randomPos[0],randomPos[1], ']')
+    Capture('clk')
+    print('°´Å¥£º', fileName, '[', randomPos[0],randomPos[1], ']')
+  else:
+    print('Ã»ÓÐÕÒµ½°´Å¥£º' + fileName)
   return randomPos
 
 def DragButton(fileName,offset):
@@ -29,7 +38,37 @@ def DragButton(fileName,offset):
     randomTime = random.randrange(1,3)
     time.sleep(randomTime)
   return position
+  
+def DragButtonToFind(fileName,toFind,pixelLimit):
+  position = pyautogui.locateCenterOnScreen(fileName)
+  if position:
+    pyautogui.moveTo(position[0],position[1],duration=3)
+    offset = 0
+    while offset < pixelLimit:
+      randomDrag = random.randrange(1,3)
+      pyautogui.dragRel(10,0,randomDrag,button='left')
+      founded = pyautogui.locateOnScreen(toFind)
+      if founded:
+        return True
+      else:
+        offset = offset + randomDrag
+    randomTime = random.randrange(1,3)
+    time.sleep(randomTime)
+  return False
 
+
+def HasImage(fileName):
+  leftUpPos = pyautogui.locateOnScreen(fileName)  
+  if leftUpPos:
+    return True
+  else:
+    return False
+
+Capture('start')
+
+time.sleep(47*60)
+
+Capture('started')
 
 random.seed()
   
@@ -40,13 +79,27 @@ while True:
     if position:
       position = clickButton("Nsmall.png")
       if position:
-        offset = [486, 3]
-        position = DragButton('huakuai.png',offset)
-        if position:
+        #offset = [486, 3]
+        #position = DragButton('huakuai.png',offset)
+        founded = DragButtonToFind('huakuai.png','gouliang.png',486)
+        if founded:
           position = clickButton('gouliang.png')
           if position:
             position = clickButton('queding.png')
             if position:
               position = clickButton('tuichujiyang.png')
-  else:
-    time.sleep(200) 
+              if position:
+                #¼ÄÑøÍê±Ï,sleep 6Ð¡Ê±
+                time.sleep(6*60*60);
+    else: #Ã»ÓÐÕÒµ½quanbu°´Å¥
+      randomTime = random.randrange(5,10)
+      time.sleep(randomTime) # try clickButton again after 10 sec  
+  else:#error, failed to click jiyang flag
+    Capture('JiyangBtnfailure')
+    #Èç¹û±»´ò¿ªÁËÐüÉÍ·âÓ¡´°¿Ú£¬ÔòµãÈ¡Ïû
+    if(HasImage('xuanshangfengyin.png')):
+      clickButton('quxiaoxuanshang.png')
+    #Èç¹ûÒÑ¾­´ò¿ªÁË¼ÄÑø½çÃæ(ÅÐ¶ÏÓÒÏÂ½ÇÍ¼°¸£¬Ôòµã»÷tuichujiyang
+    if(HasImage('jiyangjiemian.png')):
+      clickButton('tuichujiyang.png')
+      time.sleep(5)

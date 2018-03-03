@@ -22,7 +22,7 @@ def clickButton(fileName):
     pyautogui.click()
     randomTime = random.randrange(1,3)
     time.sleep(randomTime)
-    print('æŒ‰é’®ï¼š', fileName, '[', randomPos[0],randomPos[1], ']')
+    print('°´Å¥£º', fileName, '[', randomPos[0],randomPos[1], ']')
     Capture('clk')
   return randomPos
 
@@ -52,7 +52,7 @@ ScreenSize = pyautogui.size()
 random.seed()
   
 while True:
-  if(clickRange(centerPos)): #ç‚¹å‡»å±å¹•ä¸­é—´åŒºåŸŸï¼Œæš‚ä¸”éœ€è¦ä¸€ä¸ªç±»ä¼¼çš„ç‚¹å‡»Rangeçš„å‡½æ•°
+  if(clickRange(centerPos)): #µã»÷ÆÁÄ»ÖĞ¼äÇøÓò£¬ÔİÇÒĞèÒªÒ»¸öÀàËÆµÄµã»÷RangeµÄº¯Êı
     position = clickButton("quanbu.png")
     if position:
       position = clickButton("Nsmall.png")
@@ -66,12 +66,13 @@ while True:
             if position:
               position = clickButton('tuichujiyang.png')
               if position:
-                #å¯„å…»å®Œæ¯•,sleep 6å°æ—¶
+                #¼ÄÑøÍê±Ï,sleep 6Ğ¡Ê±
                 time.sleep(6*60);
     else
       time.sleep(10) # try clickRange again after 10 sec      
   else:#error, failed to click jiyang flag
     Capture('JiyangBtnfailure') 
-    #å¦‚æœæ‰“å¼€äº†å¯„å…»ç•Œé¢(åˆ¤æ–­å³ä¸‹è§’å›¾æ¡ˆï¼Œåˆ™ç‚¹å‡»tuichujiyang
+    #Èç¹û´ò¿ªÁË¼ÄÑø½çÃæ(ÅĞ¶ÏÓÒÏÂ½ÇÍ¼°¸£¬Ôòµã»÷tuichujiyang
     if(HasImage('jiyangjiemian.png')):
       clickButton('tuichujiyang.png')
+    #Èç¹ûµ¯³öÁËĞüÉÍ·âÓ¡´°¿Ú
