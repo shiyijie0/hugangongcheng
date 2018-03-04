@@ -2,6 +2,7 @@
 import pyautogui
 import time
 import random
+import threading
 #gouliang
 
 #pyautogui.locateOnScreen('F:\\bofang.png')
@@ -66,40 +67,50 @@ def HasImage(fileName):
 
 Capture('start')
 
-time.sleep(47*60)
+#time.sleep(2*60*60+20)
 
 Capture('started')
 
 random.seed()
+
   
-while True:
-  position = clickButton("jiyang.png")
-  if position:
-    position = clickButton("quanbu.png")
+#
+def Autojiyang():
+  Capture('TimeToStart')
+  while True:
+    position = clickButton("jiyang.png")
     if position:
-      position = clickButton("Nsmall.png")
+      position = clickButton("quanbu.png")
       if position:
-        #offset = [486, 3]
-        #position = DragButton('huakuai.png',offset)
-        founded = DragButtonToFind('huakuai.png','gouliang.png',486)
-        if founded:
-          position = clickButton('gouliang.png')
-          if position:
-            position = clickButton('queding.png')
+        position = clickButton("Nsmall.png")
+        if position:
+          #offset = [486, 3]
+          #position = DragButton('huakuai.png',offset)
+          founded = DragButtonToFind('huakuai.png','gouliang.png',486)
+          if founded:
+            position = clickButton('gouliang.png')
             if position:
-              position = clickButton('tuichujiyang.png')
+              position = clickButton('queding.png')
               if position:
-                #寄养完毕,sleep 6小时
-                time.sleep(6*60*60);
-    else: #没有找到quanbu按钮
-      randomTime = random.randrange(5,10)
-      time.sleep(randomTime) # try clickButton again after 10 sec  
-  else:#error, failed to click jiyang flag
-    Capture('JiyangBtnfailure')
-    #如果被打开了悬赏封印窗口，则点取消
-    if(HasImage('xuanshangfengyin.png')):
-      clickButton('quxiaoxuanshang.png')
-    #如果已经打开了寄养界面(判断右下角图案，则点击tuichujiyang
-    if(HasImage('jiyangjiemian.png')):
-      clickButton('tuichujiyang.png')
-      time.sleep(5)
+                position = clickButton('tuichujiyang.png')
+                if position:
+                  #寄养完毕,sleep 6小时
+                  #time.sleep(6*60*60);
+                  timer=threading.Timer(6*60*60,Autojiyang)
+                  timer.start()
+      else: #没有找到quanbu按钮
+        randomTime = random.randrange(5,10)
+        time.sleep(randomTime) # try clickButton again after 10 sec  
+    else:#error, failed to click jiyang flag
+      Capture('JiyangBtnfailure')
+      #如果被打开了悬赏封印窗口，则点取消
+      if(HasImage('xuanshangfengyin.png')):
+        clickButton('quxiaoxuanshang.png')
+      #如果已经打开了寄养界面(判断右下角图案，则点击tuichujiyang
+      if(HasImage('jiyangjiemian.png')):
+        clickButton('tuichujiyang.png')
+        time.sleep(5)
+
+
+timer=threading.Timer(1*60*60+31*60,Autojiyang)
+timer.start()        
