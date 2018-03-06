@@ -36,7 +36,7 @@ def DragButton(fileName,offset):
   if position:
     pyautogui.moveTo(position[0],position[1],duration=3)
     pyautogui.dragRel(offset[0],offset[1],5,button='left')
-    randomTime = random.randrange(1,3)
+    randomTime = random.randrange(2,3)
     time.sleep(randomTime)
   return position
   
@@ -46,14 +46,14 @@ def DragButtonToFind(fileName,toFind,pixelLimit):
     pyautogui.moveTo(position[0],position[1],duration=3)
     offset = 0
     while offset < pixelLimit:
-      randomDrag = random.randrange(1,3)
+      randomDrag = random.randrange(0,1)
       pyautogui.dragRel(10,0,randomDrag,button='left')
       founded = pyautogui.locateOnScreen(toFind)
       if founded:
         return True
       else:
         offset = offset + randomDrag
-    randomTime = random.randrange(1,3)
+    randomTime = random.randrange(1,2)
     time.sleep(randomTime)
   return False
 
@@ -66,14 +66,8 @@ def HasImage(fileName):
     return False
 
 Capture('start')
-
-#time.sleep(2*60*60+20)
-
-Capture('started')
-
 random.seed()
 
-  
 #
 def Autojiyang():
   Capture('TimeToStart')
@@ -94,12 +88,13 @@ def Autojiyang():
               if position:
                 position = clickButton('tuichujiyang.png')
                 if position:
-                  #寄养完毕,sleep 6小时
-                  #time.sleep(6*60*60);
+                  #寄养完毕，六小时之后继续
                   timer=threading.Timer(6*60*60,Autojiyang)
                   timer.start()
+                  #该循环终止
+                  return
       else: #没有找到quanbu按钮
-        randomTime = random.randrange(5,10)
+        randomTime = random.randrange(1,3)
         time.sleep(randomTime) # try clickButton again after 10 sec  
     else:#error, failed to click jiyang flag
       Capture('JiyangBtnfailure')
@@ -109,8 +104,8 @@ def Autojiyang():
       #如果已经打开了寄养界面(判断右下角图案，则点击tuichujiyang
       if(HasImage('jiyangjiemian.png')):
         clickButton('tuichujiyang.png')
-        time.sleep(5)
+        time.sleep(1)
 
 
-timer=threading.Timer(1*60*60+31*60,Autojiyang)
+timer=threading.Timer((6*60*60)-(6*60),Autojiyang)
 timer.start()        
